@@ -12,13 +12,13 @@ namespace ArchNet.Library.Color
     [System.Serializable]
     public class ColorData
     {
-        public ColorData(int colorKey, Color colorValue)
+        public ColorData(int colorKey, UnityEngine.Color colorValue)
         {
             _colorKey = colorKey;
             _colorValue = colorValue;
         }
         public int _colorKey;
-        public Color _colorValue;
+        public UnityEngine.Color _colorValue;
     }
 
 
@@ -59,21 +59,21 @@ namespace ArchNet.Library.Color
         #region Private Properties
 
         // Our final Dictionnary
-        private Dictionary<int, Color> _colorDict;
+        private Dictionary<int, UnityEngine.Color> _colorDict;
         private string[] _enumValues;
 
         #endregion
 
         #region Public Methods
 
-        public Color GetColor(int keyValue)
+        public UnityEngine.Color GetColor(int keyValue)
         {
             if (CheckExistingColor(keyValue))
             {
                 return _colorDict[keyValue];
             }
             // return pink color by default
-            return new Color(1, 0, 1);
+            return new UnityEngine.Color(1, 0, 1);
         }
 
         #endregion
@@ -182,7 +182,7 @@ namespace ArchNet.Library.Color
             {
                 Debug.LogWarning("The color List is empty");
             }
-            _colorDict = new Dictionary<int, Color>();
+            _colorDict = new Dictionary<int, UnityEngine.Color>();
             for (int i = 0; i < _colorList.Count; i++)
             {
                 if (_colorList[i]._colorKey != this._defaultValue)
@@ -212,7 +212,7 @@ namespace ArchNet.Library.Color
 
         public void AddAColor()
         {
-            this._colorList.Add(new ColorData(this._defaultValue, Color.black));
+            this._colorList.Add(new ColorData(this._defaultValue, UnityEngine.Color.black));
         }
 
         #endregion

@@ -30,7 +30,7 @@ namespace ArchNet.Library.Color
         private void OnEnable()
         {
             _warningInfos = new GUIStyle();
-            _warningInfos.normal.textColor = Color.red;
+            _warningInfos.normal.textColor = UnityEngine.Color.red;
             _warningInfos.fontStyle = FontStyle.Bold;
 
             manager = target as ColorLibrary;
