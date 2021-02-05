@@ -15,5 +15,8 @@
   "author": {
     "name": "Arch Net",
     "email": "archnetmodule@gmail.com"
+  },
+     "dependencies": {
+    "com.unity.editorcoroutines": "1.0.0"
   }
 }
