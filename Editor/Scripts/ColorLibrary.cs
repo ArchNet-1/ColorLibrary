@@ -7,7 +7,7 @@ using System.Collections.Generic;
 /// Avoid mass refacto on a change  on a color
 /// @author : Killian Chicoisne
 /// </summary>
-namespace ArchNet.Library.ColorLibrary
+namespace ArchNet.Library.Color
 {
     [System.Serializable]
     public class ColorData
