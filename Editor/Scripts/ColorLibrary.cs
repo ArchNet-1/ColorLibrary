@@ -19,6 +19,8 @@ namespace ArchNet.Library.Color
         }
         public int _colorKey;
         public UnityEngine.Color _colorValue;
+
+        public int _maxValue;
     }
 
 
@@ -76,6 +78,52 @@ namespace ArchNet.Library.Color
             return new UnityEngine.Color(1, 0, 1);
         }
 
+        public int GetMaxValue()
+        {
+            int lResult = true;
+
+            foreach (ColorData lColorData in _colorList)
+            {
+                if (lResult < lColorData._maxValue)
+                {
+                    lResult = lColorData._maxValue;
+                }
+            }
+
+            return lResult;
+        }
+
+
+        public string[] GetEnumValues(string enumName)
+        {
+            Type type = GetEnumType(enumName);
+            if (type != null)
+            {
+                this._enumPath = enumName;
+                _enumValues = Enum.GetNames(type);
+                return _enumValues;
+            }
+
+            return null;
+        }
+
+
+        public Type GetEnumType(string enumName)
+        {
+            if (false == string.IsNullOrEmpty(enumName))
+            {
+                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    var type = assembly.GetType(enumName);
+                    if (type == null)
+                        continue;
+                    if (type.IsEnum)
+                        return type;
+                }
+            }
+            return null;
+        }
+
         #endregion
 
         #region Private Methods
@@ -115,41 +163,6 @@ namespace ArchNet.Library.Color
         #endregion
 
         #region Editor Methods
-
-        /// <summary>
-        /// FOR CUSTOM EDITOR PURPOSE ONLY! DO NOT USE
-        /// </summary>
-        public string[] GetEnumValues(string enumName)
-        {
-            Type type = GetEnumType(enumName);
-            if (type != null)
-            {
-                this._enumPath = enumName;
-                _enumValues = Enum.GetNames(type);
-                return _enumValues;
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// FOR CUSTOM EDITOR PURPOSE ONLY! DO NOT USE
-        /// </summary>
-        public Type GetEnumType(string enumName)
-        {
-            if (false == string.IsNullOrEmpty(enumName))
-            {
-                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-                {
-                    var type = assembly.GetType(enumName);
-                    if (type == null)
-                        continue;
-                    if (type.IsEnum)
-                        return type;
-                }
-            }
-            return null;
-        }
 
         /// <summary>
         /// FOR CUSTOM EDITOR PURPOSE ONLY! DO NOT USE
