@@ -20,7 +20,7 @@ namespace ArchNet.Library.Color
         public int _colorKey;
         public UnityEngine.Color _colorValue;
 
-        public int _maxValue;
+
     }
 
 
@@ -84,12 +84,12 @@ namespace ArchNet.Library.Color
 
             foreach (ColorData lColorData in _colorList)
             {
-                if (lResult < lColorData._maxValue)
+                if (lResult < lColorData._colorKey)
                 {
-                    lResult = lColorData._maxValue;
+                    lResult = lColorData._colorKey;
                 }
             }
-
+            
             return lResult;
         }
 
