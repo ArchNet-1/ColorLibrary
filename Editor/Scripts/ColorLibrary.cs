@@ -107,6 +107,10 @@ namespace ArchNet.Library.Color
             return null;
         }
 
+        public string GetEnumPath()
+        {
+            return _enumPath;
+        }
 
         public Type GetEnumType(string enumName)
         {
