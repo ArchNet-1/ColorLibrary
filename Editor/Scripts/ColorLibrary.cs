@@ -45,10 +45,10 @@ namespace ArchNet.Library.Color
         private List<ColorData> _colorList;
 
         [SerializeField]
-        bool _expandedSettings = true;
+        private bool _expandedSettings = true;
 
         [SerializeField]
-        bool _forceDefaultValue = false;
+        private bool _forceDefaultValue = false;
 
         [SerializeField]
         private int _defaultValue = 0;
@@ -78,6 +78,11 @@ namespace ArchNet.Library.Color
             return new UnityEngine.Color(1, 0, 1);
         }
 
+        public string GetEnumPath()
+        {
+            return _enumPath;
+        }
+
         public int GetMaxValue()
         {
             int lResult = 0;
@@ -89,49 +94,17 @@ namespace ArchNet.Library.Color
                     lResult = lColorData._colorKey;
                 }
             }
-            
+
             return lResult;
-        }
-
-
-        public string[] GetEnumValues(string enumName)
-        {
-            Type type = GetEnumType(enumName);
-            if (type != null)
-            {
-                this._enumPath = enumName;
-                _enumValues = Enum.GetNames(type);
-                return _enumValues;
-            }
-
-            return null;
-        }
-
-        public string GetEnumPath()
-        {
-            return _enumPath;
-        }
-
-        public Type GetEnumType(string enumName)
-        {
-            if (false == string.IsNullOrEmpty(enumName))
-            {
-                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-                {
-                    var type = assembly.GetType(enumName);
-                    if (type == null)
-                        continue;
-                    if (type.IsEnum)
-                        return type;
-                }
-            }
-            return null;
         }
 
         #endregion
 
         #region Private Methods
 
+        /// <summary>
+        /// FOR CUSTOM EDITOR PURPOSE ONLY! DO NOT USE
+        /// </summary>
         private bool CheckExistingColor(int enumValue)
         {
             if (_colorDict == null)
@@ -149,7 +122,6 @@ namespace ArchNet.Library.Color
             }
             if (false == IsInList(enumValue))
             {
-                string[] lEnumValues = this.GetEnumValues(_enumPath);
                 Debug.LogWarning("Library do not contain a color for key: " + enumValue);
                 return false;
             }
@@ -164,6 +136,9 @@ namespace ArchNet.Library.Color
             }
         }
 
+        /// <summary>
+        /// FOR CUSTOM EDITOR PURPOSE ONLY! DO NOT USE
+        /// </summary>
         private bool IsInList(int pValue)
         {
             bool lResult = false;
@@ -182,6 +157,40 @@ namespace ArchNet.Library.Color
         #endregion
 
         #region Editor Methods
+        /// <summary>
+        /// FOR CUSTOM EDITOR PURPOSE ONLY! DO NOT USE
+        /// </summary>
+        public Type GetEnumType(string enumName)
+        {
+            if (false == string.IsNullOrEmpty(enumName))
+            {
+                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    var type = assembly.GetType(enumName);
+                    if (type == null)
+                        continue;
+                    if (type.IsEnum)
+                        return type;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// FOR CUSTOM EDITOR PURPOSE ONLY! DO NOT USE
+        /// </summary>
+        public string[] GetEnumValues(string enumName)
+        {
+            Type type = GetEnumType(enumName);
+            if (type != null)
+            {
+                this._enumPath = enumName;
+                _enumValues = Enum.GetNames(type);
+                return _enumValues;
+            }
+
+            return null;
+        }
 
         /// <summary>
         /// FOR CUSTOM EDITOR PURPOSE ONLY! DO NOT USE
