@@ -150,7 +150,7 @@ namespace ArchNet.Library.Color
             if (false == IsInList(enumValue))
             {
                 string[] lEnumValues = this.GetEnumValues(_enumPath);
-                Debug.LogWarning("Library do not contain a color for key: " + lEnumValues[enumValue]);
+                Debug.LogWarning("Library do not contain a color for key: " + enumValue);
                 return false;
             }
 
