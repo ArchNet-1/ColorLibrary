@@ -80,7 +80,7 @@ namespace ArchNet.Library.Color
 
         public int GetMaxValue()
         {
-            int lResult = true;
+            int lResult = 0;
 
             foreach (ColorData lColorData in _colorList)
             {
