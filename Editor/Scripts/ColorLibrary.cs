@@ -147,7 +147,7 @@ namespace ArchNet.Library.Color
                     return false;
                 }
             }
-            if (false == _colorDict.ContainsKey(enumValue))
+            if (false == IsInList(enumValue))
             {
                 string[] lEnumValues = this.GetEnumValues(_enumPath);
                 Debug.LogWarning("Library do not contain a color for key: " + lEnumValues[enumValue]);
@@ -162,6 +162,21 @@ namespace ArchNet.Library.Color
             {
                 return false;
             }
+        }
+
+        private bool IsInList(int pValue)
+        {
+            bool lResult = false;
+
+            foreach (int lValue in _colorDict.Keys)
+            {
+                if (pValue == lValue)
+                {
+                    lResult = true;
+                }
+            }
+
+            return lResult;
         }
 
         #endregion
