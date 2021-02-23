@@ -9,22 +9,21 @@ using System.Collections.Generic;
 /// </summary>
 namespace ArchNet.Library.Color
 {
+    // Dictionnary can't be serialized
+    // We use this class as Dictionnary copy
     [System.Serializable]
     public class ColorData
     {
-        public ColorData(int colorKey, UnityEngine.Color colorValue)
+        public ColorData(int colorKey, Color colorValue)
         {
             _colorKey = colorKey;
             _colorValue = colorValue;
         }
         public int _colorKey;
-        public UnityEngine.Color _colorValue;
-
-
+        public Color _colorValue;
     }
 
-
-    [CreateAssetMenu(fileName = "NewColorLibrary", menuName = "ArchNet/ColorLibrary")]
+    [CreateAssetMenu(fileName = "NewColorLibrary", menuName = "CasualFantasy/ColorLibrary")]
     public class ColorLibrary : ScriptableObject
     {
         public enum KeyType
@@ -45,10 +44,10 @@ namespace ArchNet.Library.Color
         private List<ColorData> _colorList;
 
         [SerializeField]
-        private bool _expandedSettings = true;
+        bool _expandedSettings = true;
 
         [SerializeField]
-        private bool _forceDefaultValue = false;
+        bool _forceDefaultValue = false;
 
         [SerializeField]
         private int _defaultValue = 0;
@@ -61,50 +60,63 @@ namespace ArchNet.Library.Color
         #region Private Properties
 
         // Our final Dictionnary
-        private Dictionary<int, UnityEngine.Color> _colorDict;
+        private Dictionary<int, Color> _colorDict;
         private string[] _enumValues;
+        private Type _enumType;
 
         #endregion
 
         #region Public Methods
 
-        public UnityEngine.Color GetColor(int keyValue)
+        public Color GetColor(int pKeyValue)
         {
-            if (CheckExistingColor(keyValue))
+            if (CheckExistingColor(pKeyValue))
             {
-                return _colorDict[keyValue];
+                return _colorDict[pKeyValue];
             }
             // return pink color by default
-            return new UnityEngine.Color(1, 0, 1);
+            return new Color(1, 0, 1);
         }
 
-        public string GetEnumPath()
+        public Color GetColor(Enum pEnumValue)
         {
-            return _enumPath;
-        }
+            Type actualEnumType = GetEnumType(_enumPath);
 
-        public int GetMaxValue()
-        {
-            int lResult = 0;
-
-            foreach (ColorData lColorData in _colorList)
+            if (this._keyType != KeyType.ENUM)
             {
-                if (lResult < lColorData._colorKey)
-                {
-                    lResult = lColorData._colorKey;
-                }
+                Debug.LogWarning("[" + this.name + "] It seems that you're trying to get a color with an enum within a library not set for enum key");
+            }
+            else if (pEnumValue.GetType() != actualEnumType)
+            {
+                Debug.LogWarning("[" + this.name + "] It seems that you're trying to get a color with a different enum that the one defined to be the key in the library");
             }
 
-            return lResult;
+            int value = Convert.ToInt32(pEnumValue);
+            if (CheckExistingColor(value))
+            {
+                return _colorDict[value];
+            }
+
+            // return pink color by default
+            return new Color(1, 0, 1);
+        }
+
+        public bool IsEnumEqual(Type pEnumType)
+        {
+            if (pEnumType == this._enumType)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         #endregion
 
         #region Private Methods
 
-        /// <summary>
-        /// FOR CUSTOM EDITOR PURPOSE ONLY! DO NOT USE
-        /// </summary>
         private bool CheckExistingColor(int enumValue)
         {
             if (_colorDict == null)
@@ -120,9 +132,10 @@ namespace ArchNet.Library.Color
                     return false;
                 }
             }
-            if (false == IsInList(enumValue))
+            if (false == _colorDict.ContainsKey(enumValue))
             {
-                Debug.LogWarning("Library do not contain a color for key: " + enumValue);
+                string[] lEnumValues = this.GetEnumValues(_enumPath);
+                Debug.LogWarning("Library do not contain a color for value: " + enumValue);
                 return false;
             }
 
@@ -136,27 +149,27 @@ namespace ArchNet.Library.Color
             }
         }
 
-        /// <summary>
-        /// FOR CUSTOM EDITOR PURPOSE ONLY! DO NOT USE
-        /// </summary>
-        private bool IsInList(int pValue)
-        {
-            bool lResult = false;
-
-            foreach (int lValue in _colorDict.Keys)
-            {
-                if (pValue == lValue)
-                {
-                    lResult = true;
-                }
-            }
-
-            return lResult;
-        }
-
         #endregion
 
         #region Editor Methods
+
+        /// <summary>
+        /// FOR CUSTOM EDITOR PURPOSE ONLY! DO NOT USE
+        /// </summary>
+        public string[] GetEnumValues(string enumName)
+        {
+            Type type = GetEnumType(enumName);
+            if (type != null)
+            {
+                this._enumType = type;
+                this._enumPath = enumName;
+                _enumValues = Enum.GetNames(type);
+                return _enumValues;
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// FOR CUSTOM EDITOR PURPOSE ONLY! DO NOT USE
         /// </summary>
@@ -173,22 +186,6 @@ namespace ArchNet.Library.Color
                         return type;
                 }
             }
-            return null;
-        }
-
-        /// <summary>
-        /// FOR CUSTOM EDITOR PURPOSE ONLY! DO NOT USE
-        /// </summary>
-        public string[] GetEnumValues(string enumName)
-        {
-            Type type = GetEnumType(enumName);
-            if (type != null)
-            {
-                this._enumPath = enumName;
-                _enumValues = Enum.GetNames(type);
-                return _enumValues;
-            }
-
             return null;
         }
 
@@ -223,7 +220,7 @@ namespace ArchNet.Library.Color
             {
                 Debug.LogWarning("The color List is empty");
             }
-            _colorDict = new Dictionary<int, UnityEngine.Color>();
+            _colorDict = new Dictionary<int, Color>();
             for (int i = 0; i < _colorList.Count; i++)
             {
                 if (_colorList[i]._colorKey != this._defaultValue)
@@ -253,7 +250,7 @@ namespace ArchNet.Library.Color
 
         public void AddAColor()
         {
-            this._colorList.Add(new ColorData(this._defaultValue, UnityEngine.Color.black));
+            this._colorList.Add(new ColorData(this._defaultValue, Color.black));
         }
 
         #endregion
