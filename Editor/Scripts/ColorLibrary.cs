@@ -7,7 +7,7 @@ using System.Collections.Generic;
 /// Avoid mass refacto on a change  on a color
 /// @author : Killian Chicoisne
 /// </summary>
-namespace ArchNet.Library.Color
+namespace ArchNet.Library.ColorLibrary
 {
     // Dictionnary can't be serialized
     // We use this class as Dictionnary copy

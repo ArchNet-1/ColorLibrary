@@ -3,7 +3,7 @@ using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace ArchNet.Library.Color
+namespace ArchNet.Library.ColorLibrary
 {
     [CustomEditor(typeof(ColorLibrary))]
     public class ColorLibraryEditor : UnityEditor.Editor
