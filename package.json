@@ -4,6 +4,7 @@
   "displayName": "ArchNet - Color Library",
   "description": "Your game's palette in one asset: colors stored by enum or int key, so changing a color updates every place that uses it.",
   "unity": "6000.0",
+  "license": "MIT",
   "documentationUrl": "https://archnet-plateform.fr/#ColorLibrary",
   "changelogUrl": "https://github.com/ArchNet-1/ColorLibrary/blob/main/CHANGELOG.md",
   "licensesUrl": "https://github.com/ArchNet-1/ColorLibrary/blob/main/LICENSE.md",

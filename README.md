@@ -31,4 +31,4 @@ Add **ArchNet Color Extension** to a UI element to color it from the library wit
 
 ## License
 
-See [LICENSE.md](LICENSE.md).
+MIT, see [LICENSE.md](LICENSE.md).
